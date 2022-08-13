@@ -1,20 +1,16 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:tracker/res/colors.dart';
 import '../../animations/textfield_animation/custom_shake_widget.dart';
-import '../../controller/textfield_focus.dart';
-import '../../utils/Utils.dart';
 
-class DescriptionField extends StatelessWidget {
+class AmountField extends StatelessWidget {
   final TextEditingController controller;
   final String title;
-  final GlobalKey<CustomShakeWidgetState> descriptionIDState;
+  final GlobalKey<CustomShakeWidgetState> amountIDState;
 
-  DescriptionField(
+  AmountField(
       {required this.controller,
         required this.title,
-        required this.descriptionIDState});
+        required this.amountIDState});
 
   @override
   Widget build(BuildContext context) {
@@ -23,24 +19,13 @@ class DescriptionField extends StatelessWidget {
         validator: (currentValue) {
           var nonNullable = currentValue ?? "";
           if (nonNullable.isEmpty) {
-            descriptionIDState.currentState?.shake();
-            return "Description field can't be empty!";
+            amountIDState.currentState?.shake();
+            return "Amount field can't be empty!";
           }
           return null;
         },
-        inputFormatters: [
-          LengthLimitingTextInputFormatter(100),
-        ],
-        onChanged: (value){
-          if (value.length == 100) {
-            Utils.showFlushBarErrorMessages("You can't write more than 100 letters", context);
-          }
-        },
-        maxLines: 5,
-        // onFieldSubmitted: (value) {
-        //   Utils.fieldFocusChange(
-        //       context, TextFieldFocus.titleFocus, TextFieldFocus.descriptionFocus);
-        // },
+        readOnly: true,
+        showCursor: true,
         decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
