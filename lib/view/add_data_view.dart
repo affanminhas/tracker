@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:tracker/model/tracker_data_model.dart';
+import 'package:tracker/utils/Utils.dart';
 import '../animations/textfield_animation/custom_shake_widget.dart';
 import '../animations/textfield_animation/custom_shake_widget.dart';
 import 'package:tracker/res/colors.dart' as app_color;
 
 import '../animations/textfield_animation/custom_shake_widget.dart';
+import '../database/db_handler.dart';
 import '../provider/add_data_provider.dart';
 import '../res/colors.dart';
 import '../view_model/AddDataModel/amount_field.dart';
@@ -29,6 +32,7 @@ class _AddViewState extends State<AddView> {
   late TextEditingController _titleEditingController;
   late TextEditingController _descriptionEditingController;
   late TextEditingController _amountEditingController;
+  DBHelper? dbHelper;
 
   @override
   void initState() {
@@ -39,6 +43,8 @@ class _AddViewState extends State<AddView> {
     _titleEditingController = TextEditingController(text: "");
     _descriptionEditingController = TextEditingController(text: "");
     _amountEditingController = TextEditingController(text: "");
+    super.initState();
+    dbHelper = DBHelper();
   }
 
   @override
@@ -61,7 +67,21 @@ class _AddViewState extends State<AddView> {
       backgroundColor: AppColor.backgroundColor,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _formKey.currentState?.validate();
+          if (_formKey.currentState?.validate() ?? false) {
+            if(addDataProvider.dateController.text != "" && addDataProvider.timeController.text != ""){
+              dbHelper?.insert(TrackerDataModel(
+                  title: _titleEditingController.text,
+                  description: _descriptionEditingController.text,
+                  date: addDataProvider.dateController.text,
+                  time: addDataProvider.timeController.text,
+                  expense: addDataProvider.expenseField,
+                  amount: addDataProvider.amountController.text)).then((value){
+                    print("Data added");
+              });
+            }else{
+              Utils.showFlushBarErrorMessages("Date and time required!", context);
+            }
+          }
         },
         backgroundColor: AppColor.floatingButtonColor,
         child: const Icon(
@@ -95,7 +115,8 @@ class _AddViewState extends State<AddView> {
                   shakeCount: 4,
                   shakeOffset: 10,
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
+                    padding:
+                        const EdgeInsets.only(top: 10, left: 15, right: 15),
                     child: DescriptionField(
                         controller: _descriptionEditingController,
                         title: "Description",
@@ -126,10 +147,7 @@ class _AddViewState extends State<AddView> {
                       const SizedBox(
                         width: 10,
                       ),
-                      Expanded(
-                          child: DateField(
-                        title: 'Date',
-                      )),
+                      Expanded(child: DateField(title: 'Date')),
                     ],
                   ),
                 ),
@@ -180,7 +198,8 @@ class _AddViewState extends State<AddView> {
                   shakeCount: 4,
                   shakeOffset: 10,
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
+                    padding:
+                        const EdgeInsets.only(top: 10, left: 15, right: 15),
                     child: AmountField(
                         controller: addDataProvider.amountController,
                         title: "Amount",

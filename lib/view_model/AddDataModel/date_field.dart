@@ -19,7 +19,6 @@ class DateField extends StatelessWidget {
     final addDataProvider = Provider.of<AddDataProvider>(context, listen: false);
     return TextFormField(
       controller: addDataProvider.dateController,
-        focusNode: TextFieldFocus.titleFocus,
         enabled: false,
         decoration: InputDecoration(
             fillColor: Colors.white,

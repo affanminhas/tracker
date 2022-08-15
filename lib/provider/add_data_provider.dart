@@ -6,6 +6,7 @@ class AddDataProvider extends ChangeNotifier{
   String? _date;
   String? time;
   String totalAmount = "";
+  String _currentValue = "Expense";
   TextEditingController _amountEditingController = TextEditingController(text: "");
   final TextEditingController _dateEditingController = TextEditingController(text: "");
   final TextEditingController _timeEditingController = TextEditingController(text: "");
@@ -22,6 +23,9 @@ class AddDataProvider extends ChangeNotifier{
   // --- Getting time --- //
   TextEditingController get timeController => _timeEditingController;
 
+  // --- Getting expense --- //
+  String get expenseField => _currentValue;
+
   // --- Setting date --- //
   void setDate(String dateTime){
     _dateEditingController.text = dateTime;
@@ -31,6 +35,12 @@ class AddDataProvider extends ChangeNotifier{
   // --- Setting time --- //
   void setTime(String dateTime){
     _timeEditingController.text = dateTime;
+    notifyListeners();
+  }
+
+  // --- Setting expense field --- //
+  void setExpenseField(String newValue){
+    _currentValue = newValue;
     notifyListeners();
   }
 

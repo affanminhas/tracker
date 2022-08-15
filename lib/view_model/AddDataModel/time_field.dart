@@ -16,10 +16,10 @@ class TimeField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final addDataProvider = Provider.of<AddDataProvider>(context, listen: false);
+    final addDataProvider =
+        Provider.of<AddDataProvider>(context, listen: false);
     return TextFormField(
-      controller: addDataProvider.timeController,
-        focusNode: TextFieldFocus.titleFocus,
+        controller: addDataProvider.timeController,
         enabled: false,
         decoration: InputDecoration(
             fillColor: Colors.white,

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tracker/provider/add_data_provider.dart';
 import 'package:tracker/res/colors.dart';
 
 class ExpenseField extends StatefulWidget {
@@ -16,6 +18,7 @@ class _ExpenseFieldState extends State<ExpenseField> {
 
   @override
   Widget build(BuildContext context) {
+    final addDataProvider = Provider.of<AddDataProvider>(context, listen: false);
     return Scaffold(
       body: Center(
         child: Container(
@@ -34,6 +37,9 @@ class _ExpenseFieldState extends State<ExpenseField> {
               onChanged: (value){
                 setState(() {
                   currentValue = value;
+                  if(value != null){
+                    addDataProvider.setExpenseField(value);
+                  }
                 });
               },
             ),
