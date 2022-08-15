@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import '../animations/textfield_animation/custom_shake_widget.dart';
+import '../animations/textfield_animation/custom_shake_widget.dart';
 import 'package:tracker/res/colors.dart' as app_color;
 
 import '../animations/textfield_animation/custom_shake_widget.dart';
@@ -74,26 +76,38 @@ class _AddViewState extends State<AddView> {
             physics: const BouncingScrollPhysics(),
             child: Column(
               children: [
-                Padding(
-                    padding:
-                        const EdgeInsets.only(top: 10, left: 15, right: 15),
-                    child: TitleField(
-                        controller: _titleEditingController,
-                        title: "Title",
-                        titleIDStateKeyVal: _titleIDKeyState)),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
-                  child: DescriptionField(
-                      controller: _descriptionEditingController,
-                      title: "Description",
-                      descriptionIDState: _descriptionIDState),
+                CustomShakeWidget(
+                  key: _titleIDKeyState,
+                  duration: const Duration(milliseconds: 800),
+                  shakeCount: 4,
+                  shakeOffset: 10,
+                  child: Padding(
+                      padding:
+                          const EdgeInsets.only(top: 10, left: 15, right: 15),
+                      child: TitleField(
+                          controller: _titleEditingController,
+                          title: "Title",
+                          titleIDStateKeyVal: _titleIDKeyState)),
+                ),
+                CustomShakeWidget(
+                  key: _descriptionIDState,
+                  duration: const Duration(milliseconds: 800),
+                  shakeCount: 4,
+                  shakeOffset: 10,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
+                    child: DescriptionField(
+                        controller: _descriptionEditingController,
+                        title: "Description",
+                        descriptionIDState: _descriptionIDState),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
                   child: Row(
                     children: [
                       InkWell(
-                        onTap: (){
+                        onTap: () {
                           pickDate(context);
                         },
                         child: Container(
@@ -124,7 +138,7 @@ class _AddViewState extends State<AddView> {
                   child: Row(
                     children: [
                       InkWell(
-                        onTap: (){
+                        onTap: () {
                           pickTime(context);
                         },
                         child: Container(
@@ -160,12 +174,18 @@ class _AddViewState extends State<AddView> {
                           color: Colors.white),
                       child: ExpenseField(),
                     )),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
-                  child: AmountField(
-                      controller: addDataProvider.amountController,
-                      title: "Amount",
-                      amountIDState: _amountIDKeyState),
+                CustomShakeWidget(
+                  key: _amountIDKeyState,
+                  duration: const Duration(milliseconds: 800),
+                  shakeCount: 4,
+                  shakeOffset: 10,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
+                    child: AmountField(
+                        controller: addDataProvider.amountController,
+                        title: "Amount",
+                        amountIDState: _amountIDKeyState),
+                  ),
                 ),
                 const Padding(
                   padding: EdgeInsets.only(top: 10),
@@ -185,8 +205,9 @@ class _AddViewState extends State<AddView> {
     return convertedDateTime;
   }
 
-  Future pickDate(BuildContext context) async{
-    final addDataProvider = Provider.of<AddDataProvider>(context, listen: false);
+  Future pickDate(BuildContext context) async {
+    final addDataProvider =
+        Provider.of<AddDataProvider>(context, listen: false);
     final initialDate = DateTime.now();
     final newDate = await showDatePicker(
       context: context,
@@ -194,23 +215,24 @@ class _AddViewState extends State<AddView> {
       firstDate: DateTime(DateTime.now().year - 5),
       lastDate: DateTime(DateTime.now().year + 5),
     );
-    if (newDate!= null){
+    if (newDate != null) {
       addDataProvider.setDate(getFormatDate(newDate));
-    }else{
+    } else {
       return;
     }
   }
 
-  Future pickTime(BuildContext context) async{
-    final addDataProvider = Provider.of<AddDataProvider>(context, listen: false);
+  Future pickTime(BuildContext context) async {
+    final addDataProvider =
+        Provider.of<AddDataProvider>(context, listen: false);
     final initialTime = TimeOfDay(hour: 9, minute: 0);
     final newTime = await showTimePicker(
       context: context,
       initialTime: initialTime,
     );
-    if (newTime!= null){
+    if (newTime != null) {
       addDataProvider.setTime(newTime.format(context));
-    }else{
+    } else {
       return;
     }
   }
