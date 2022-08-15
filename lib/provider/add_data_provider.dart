@@ -7,10 +7,21 @@ class AddDataProvider extends ChangeNotifier{
   String? time;
   String totalAmount = "";
   TextEditingController _amountEditingController = TextEditingController(text: "");
+  final TextEditingController _dateEditingController = TextEditingController(text: "");
+
   String get currentDateNow => formatDate(currentDate);
 
   // --- Getting amount from text field --- //
   TextEditingController get amountController => _amountEditingController;
+
+  // --- Getting date --- //
+  TextEditingController get dateController => _dateEditingController;
+
+  // --- Setting date --- //
+  void setDate(String dateTime){
+    _dateEditingController.text = dateTime;
+    notifyListeners();
+  }
 
   // --- Setting amount in text field --- //
   void setAmountField(String amount){

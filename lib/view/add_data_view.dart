@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tracker/res/colors.dart' as app_color;
 
@@ -25,7 +26,6 @@ class _AddViewState extends State<AddView> {
   late GlobalKey<CustomShakeWidgetState> _amountIDKeyState;
   late TextEditingController _titleEditingController;
   late TextEditingController _descriptionEditingController;
-  late TextEditingController _timeEditingController;
   late TextEditingController _amountEditingController;
 
   @override
@@ -36,7 +36,6 @@ class _AddViewState extends State<AddView> {
     _amountIDKeyState = GlobalKey();
     _titleEditingController = TextEditingController(text: "");
     _descriptionEditingController = TextEditingController(text: "");
-    _timeEditingController = TextEditingController(text: getCurrentDate());
     _amountEditingController = TextEditingController(text: "");
   }
 
@@ -49,7 +48,6 @@ class _AddViewState extends State<AddView> {
     _amountIDKeyState.currentState?.dispose();
     _titleEditingController.dispose();
     _descriptionEditingController.dispose();
-    _timeEditingController.dispose();
     _amountEditingController.dispose();
     super.dispose();
   }
@@ -94,16 +92,21 @@ class _AddViewState extends State<AddView> {
                   padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
                   child: Row(
                     children: [
-                      Container(
-                        height: 55,
-                        width: 55,
-                        decoration: BoxDecoration(
-                            color: AppColor.whiteColor,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: const Icon(
-                          Icons.date_range,
-                          color: AppColor.greyColor,
-                          size: 33,
+                      InkWell(
+                        onTap: (){
+                          pickDate(context);
+                        },
+                        child: Container(
+                          height: 55,
+                          width: 55,
+                          decoration: BoxDecoration(
+                              color: AppColor.whiteColor,
+                              borderRadius: BorderRadius.circular(15)),
+                          child: const Icon(
+                            Icons.date_range,
+                            color: AppColor.greyColor,
+                            size: 33,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -171,10 +174,25 @@ class _AddViewState extends State<AddView> {
     );
   }
 
-  String getCurrentDate() {
-    final DateTime currentDate = DateTime.now();
+  String getFormatDate(DateTime date) {
     String convertedDateTime =
-        '${currentDate.day.toString()} ${currentDate.month.toString()},${currentDate.year.toString()}';
+        '${date.day.toString()} ${DateFormat.LLLL().format(date)}, ${date.year.toString()}';
     return convertedDateTime;
+  }
+
+  Future pickDate(BuildContext context) async{
+    final addDataProvider = Provider.of<AddDataProvider>(context, listen: false);
+    final initialDate = DateTime.now();
+    final newDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(DateTime.now().year - 5),
+      lastDate: DateTime(DateTime.now().year + 5),
+    );
+    if (newDate!= null){
+      addDataProvider.setDate(getFormatDate(newDate));
+    }else{
+      return;
+    }
   }
 }

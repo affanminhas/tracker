@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:tracker/provider/add_data_provider.dart';
 import '../../animations/textfield_animation/custom_shake_widget.dart';
 import '../../controller/textfield_focus.dart';
 import '../../utils/Utils.dart';
@@ -14,6 +16,7 @@ class TimeField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final addDataProvider = Provider.of<AddDataProvider>(context, listen: false);
     return TextFormField(
         focusNode: TextFieldFocus.titleFocus,
         enabled: false,
