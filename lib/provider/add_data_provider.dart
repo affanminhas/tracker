@@ -8,6 +8,8 @@ class AddDataProvider extends ChangeNotifier{
   String totalAmount = "";
   TextEditingController _amountEditingController = TextEditingController(text: "");
   final TextEditingController _dateEditingController = TextEditingController(text: "");
+  final TextEditingController _timeEditingController = TextEditingController(text: "");
+
 
   String get currentDateNow => formatDate(currentDate);
 
@@ -17,9 +19,18 @@ class AddDataProvider extends ChangeNotifier{
   // --- Getting date --- //
   TextEditingController get dateController => _dateEditingController;
 
+  // --- Getting time --- //
+  TextEditingController get timeController => _timeEditingController;
+
   // --- Setting date --- //
   void setDate(String dateTime){
     _dateEditingController.text = dateTime;
+    notifyListeners();
+  }
+
+  // --- Setting time --- //
+  void setTime(String dateTime){
+    _timeEditingController.text = dateTime;
     notifyListeners();
   }
 

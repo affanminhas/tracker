@@ -123,15 +123,20 @@ class _AddViewState extends State<AddView> {
                   padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
                   child: Row(
                     children: [
-                      Container(
-                        height: 55,
-                        width: 55,
-                        decoration: BoxDecoration(
-                            color: AppColor.whiteColor,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: const Image(
-                          color: AppColor.greyColor,
-                          image: AssetImage("images/clock_icon.png"),
+                      InkWell(
+                        onTap: (){
+                          pickTime(context);
+                        },
+                        child: Container(
+                          height: 55,
+                          width: 55,
+                          decoration: BoxDecoration(
+                              color: AppColor.whiteColor,
+                              borderRadius: BorderRadius.circular(15)),
+                          child: const Image(
+                            color: AppColor.greyColor,
+                            image: AssetImage("images/clock_icon.png"),
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -191,6 +196,20 @@ class _AddViewState extends State<AddView> {
     );
     if (newDate!= null){
       addDataProvider.setDate(getFormatDate(newDate));
+    }else{
+      return;
+    }
+  }
+
+  Future pickTime(BuildContext context) async{
+    final addDataProvider = Provider.of<AddDataProvider>(context, listen: false);
+    final initialTime = TimeOfDay(hour: 9, minute: 0);
+    final newTime = await showTimePicker(
+      context: context,
+      initialTime: initialTime,
+    );
+    if (newTime!= null){
+      addDataProvider.setTime(newTime.format(context));
     }else{
       return;
     }
