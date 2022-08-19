@@ -44,6 +44,13 @@ class AddDataProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  // --- Setting amount field to null --- //
+  void setAmountFieldEmpty(){
+    _amountEditingController.text = "";
+    totalAmount = "";
+    notifyListeners();
+  }
+
   // --- Setting amount in text field --- //
   void setAmountField(String amount){
     if (checkCursorPosition() == -1){

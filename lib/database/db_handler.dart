@@ -43,4 +43,22 @@ class DBHelper {
 
     return queryResult.map((e) => TrackerDataModel.fromMap(e)).toList();
   }
+
+  // ---- Fetch data from database ----
+  Future<List<Map<String, Object?>>> getNotesListOnly() async {
+    var dbClient = await database;
+    final List<Map<String, Object?>> queryResult =
+    await dbClient!.query("tracker");
+
+    return queryResult;
+  }
+
+  Future<int> delete(int id)async{
+    var dbClient = await database;
+    return dbClient!.delete(
+        "tracker",
+        where: "id = ?",
+        whereArgs: [id]
+    );
+  }
 }

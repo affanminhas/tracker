@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tracker/utils/routes/route_name.dart';
 
 import '../provider/add_data_provider.dart';
+import '../provider/home_data_provider.dart';
 import '../utils/routes/routes.dart';
 
 class AppView extends StatelessWidget {
@@ -15,12 +16,13 @@ class AppView extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_)=> AddDataProvider()),
+        ChangeNotifierProvider(create: (_)=> HomeProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Expense Tracker',
         theme: ThemeData(),
-        initialRoute: RoutesName.addData,
+        initialRoute: RoutesName.home,
         onGenerateRoute: Routes.generateRoute,
       ),
     );

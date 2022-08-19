@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tracker/model/tracker_data_model.dart';
 import 'package:tracker/utils/Utils.dart';
+import 'package:tracker/utils/routes/route_name.dart';
 import '../animations/textfield_animation/custom_shake_widget.dart';
 import '../animations/textfield_animation/custom_shake_widget.dart';
 import 'package:tracker/res/colors.dart' as app_color;
@@ -18,6 +19,7 @@ import '../view_model/AddDataModel/description_field.dart';
 import '../view_model/AddDataModel/expense_field.dart';
 import '../view_model/AddDataModel/time_field.dart';
 import '../view_model/AddDataModel/title_field.dart';
+import 'home_view.dart';
 
 class AddView extends StatefulWidget {
   @override
@@ -68,22 +70,25 @@ class _AddViewState extends State<AddView> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (_formKey.currentState?.validate() ?? false) {
-            if(addDataProvider.dateController.text != "" && addDataProvider.timeController.text != ""){
-              dbHelper?.insert(TrackerDataModel(
-                  title: _titleEditingController.text,
-                  description: _descriptionEditingController.text,
-                  date: addDataProvider.dateController.text,
-                  time: addDataProvider.timeController.text,
-                  expense: addDataProvider.expenseField,
-                  amount: addDataProvider.amountController.text)).then((value){
-                    print("Data added");
+            if (addDataProvider.dateController.text != "" &&
+                addDataProvider.timeController.text != "") {
+              dbHelper
+                  ?.insert(TrackerDataModel(
+                      title: _titleEditingController.text,
+                      description: _descriptionEditingController.text,
+                      date: addDataProvider.dateController.text,
+                      time: addDataProvider.timeController.text,
+                      expense: addDataProvider.expenseField,
+                      amount: addDataProvider.amountController.text))
+                  .then((value) {
+                Navigator.pushNamed(context, RoutesName.home);
               });
-            }else{
-              Utils.showFlushBarErrorMessages("Date and time required!", context);
+            } else {
+              Utils.showFlushBarErrorMessages(
+                  "Date and time required!", context);
             }
           }
         },
-        backgroundColor: AppColor.floatingButtonColor,
         child: const Icon(
           Icons.check,
           size: 30,
