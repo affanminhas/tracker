@@ -106,7 +106,7 @@ class AmountKeyboard extends StatelessWidget {
               onTap: (){
                 amountProvider.setAmountFieldOnDelete();
               },
-              child: deleteButton("Delete")
+              child: DeleteButton(title: "Delete")
             ),
           ],
         )
@@ -138,7 +138,14 @@ class AmountKeyboard extends StatelessWidget {
       ),
     );
   }
-  Container deleteButton(String title){
+}
+
+class DeleteButton extends StatelessWidget {
+  String title;
+  DeleteButton({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       width: 120,
       height: 55,
@@ -147,7 +154,7 @@ class AmountKeyboard extends StatelessWidget {
           borderRadius: BorderRadius.circular(13),
           boxShadow: [
             BoxShadow(
-                color: AppColor.blackColor.withOpacity(0.3),
+              color: AppColor.blackColor.withOpacity(0.3),
               spreadRadius: 2,
               blurRadius: 5,
               offset: const Offset(1, 4),
@@ -164,3 +171,4 @@ class AmountKeyboard extends StatelessWidget {
     );
   }
 }
+
