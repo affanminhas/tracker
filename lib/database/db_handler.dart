@@ -28,14 +28,14 @@ class DBHelper {
         "CREATE TABLE tracker (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, description TEXT NOT NULL, date TEXT NOT NULL, time TEXT NOT NULL, expense TEXT NOT NULL, amount TEXT NOT NULL)");
   }
 
-  // ---- Inserting items into database ----
+  /// ---- Inserting items into database ----
   Future<TrackerDataModel> insert(TrackerDataModel trackerDataModel) async {
     var dbClient = await database;
     await dbClient!.insert("tracker", trackerDataModel.toMap());
     return trackerDataModel;
   }
 
-  // ---- Fetch data from database ----
+  /// ---- Fetch data from database ----
   Future<List<TrackerDataModel>> getNotesList() async {
     var dbClient = await database;
     final List<Map<String, Object?>> queryResult =
@@ -44,7 +44,7 @@ class DBHelper {
     return queryResult.map((e) => TrackerDataModel.fromMap(e)).toList();
   }
 
-  // ---- Fetch data from database ----
+  /// ---- Fetch data from database ----
   Future<List<Map<String, Object?>>> getNotesListOnly() async {
     var dbClient = await database;
     final List<Map<String, Object?>> queryResult =
