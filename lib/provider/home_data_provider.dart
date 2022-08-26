@@ -26,7 +26,6 @@ class HomeProvider extends ChangeNotifier{
   }
 
   void getNumberChart(){
-    //var data = dbHelper?.getNotesListOnly();
     int expense = 0;
     int income = 0;
     dbHelper?.getNotesListOnly().then((value){
@@ -43,7 +42,6 @@ class HomeProvider extends ChangeNotifier{
   }
 
   void getNumber(){
-    //var data = dbHelper?.getNotesListOnly();
     int expense = 0;
     int income = 0;
     dbHelper?.getNotesList().then((value){

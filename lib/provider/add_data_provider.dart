@@ -14,44 +14,44 @@ class AddDataProvider extends ChangeNotifier{
 
   String get currentDateNow => formatDate(currentDate);
 
-  // --- Getting amount from text field --- //
+  /// --- Getting amount from text field ---
   TextEditingController get amountController => _amountEditingController;
 
-  // --- Getting date --- //
+  /// --- Getting date ---
   TextEditingController get dateController => _dateEditingController;
 
-  // --- Getting time --- //
+  /// --- Getting time ---
   TextEditingController get timeController => _timeEditingController;
 
-  // --- Getting expense --- //
+  /// --- Getting expense ---
   String get expenseField => _currentValue;
 
-  // --- Setting date --- //
+  /// --- Setting date ---
   void setDate(String dateTime){
     _dateEditingController.text = dateTime;
     notifyListeners();
   }
 
-  // --- Setting time --- //
+  /// --- Setting time ---
   void setTime(String dateTime){
     _timeEditingController.text = dateTime;
     notifyListeners();
   }
 
-  // --- Setting expense field --- //
+  /// --- Setting expense field ---
   void setExpenseField(String newValue){
     _currentValue = newValue;
     notifyListeners();
   }
 
-  // --- Setting amount field to null --- //
+  /// --- Setting amount field to null ---
   void setAmountFieldEmpty(){
     _amountEditingController.text = "";
     totalAmount = "";
     notifyListeners();
   }
 
-  // --- Setting amount in text field --- //
+  /// --- Setting amount in text field ---
   void setAmountField(String amount){
     if (checkCursorPosition() == -1){
       totalAmount += amount;
@@ -59,11 +59,11 @@ class AddDataProvider extends ChangeNotifier{
       notifyListeners();
     }else{
       final cursorPosition = checkCursorPosition();
-      // --- Get the left text of the cursor --- //
+      /// --- Get the left text of the cursor ---
       String prefixText = _amountEditingController.text.substring(0,checkCursorPosition());
-      // --- Get the right text of the cursor --- //
+      /// --- Get the right text of the cursor ---
       String suffixText = _amountEditingController.text.substring(checkCursorPosition());
-      // --- New text to add --- //
+      /// --- New text to add ---
       String newText = amount;
       totalAmount = prefixText + newText + suffixText;
       _amountEditingController.text = totalAmount;
@@ -82,9 +82,9 @@ class AddDataProvider extends ChangeNotifier{
       notifyListeners();
     }else if(_amountEditingController.text != "" && checkCursorPosition() != 0){
       final cursorPosition = checkCursorPosition();
-      // --- Get the left text of the cursor --- //
+      /// --- Get the left text of the cursor ---
       String prefixText = _amountEditingController.text.substring(0,checkCursorPosition()-1);
-      // --- Get the right text of the cursor --- //
+      /// --- Get the right text of the cursor --- 
       String suffixText = _amountEditingController.text.substring(checkCursorPosition());
       totalAmount = prefixText + suffixText;
       _amountEditingController.text = totalAmount;
